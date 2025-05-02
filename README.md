@@ -74,7 +74,7 @@ The application initializes with the following test users:
 
 ## API Documentation
 When the application is running, the Swagger UI is available at:
-[localhost](http://localhost:8080/swagger-ui/index.html)
+[SwaggerUI](http://localhost:8080/swagger-ui/index.html)
 
 
 

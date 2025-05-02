@@ -64,7 +64,11 @@ A RESTful API for managing events, user registrations, and event organization. B
 ### Configuration
 1. Clone the repository
 2. Configure your MySQL database in `application.properties`
-3. Run the application: `mvn spring-boot:run`
+3. Run the application: 
+
+```
+mvn spring-boot:run
+```
 
 ### Default Users
 The application initializes with the following test users:
@@ -72,9 +76,23 @@ The application initializes with the following test users:
 - Organizer: username=`organizer`, password=`organizer123`
 - Regular User: username=`user`, password=`user123`
 
+## Environment Setup
+
+This project uses environment variables for configuration. Follow these steps to set up:
+
+1. Copy the `.env-template` file to a new file named `.env`
+2. Fill in your own values in the `.env` file
+3. DO NOT commit the `.env` file to version control (it should be ignored by `.gitignore`)
+
+Example:
+```
+cp .env-template .env
+```
+
 ## API Documentation
 When the application is running, the Swagger UI is available at:
 [SwaggerUI](http://localhost:8080/swagger-ui/index.html)
+
 
 
 

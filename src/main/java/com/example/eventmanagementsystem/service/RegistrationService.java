@@ -1,3 +1,4 @@
+// src/main/java/com/example/eventmanagementsystem/service/RegistrationService.java
 package com.example.eventmanagementsystem.service;
 
 import com.example.eventmanagementsystem.dto.RegistrationDTO;
@@ -70,8 +71,9 @@ public class RegistrationService {
             throw new ApiException(HttpStatus.CONFLICT, "User is already registered for this event");
         }
 
-        // Check if the event is at capacity
-        if (!event.hasAvailableSpots()) {
+        // Fix: Check if the event is at capacity using existing method
+        int registrationCount = (event.getRegistrations() != null) ? event.getRegistrations().size() : 0;
+        if (registrationCount >= event.getCapacity()) {
             throw new ApiException(HttpStatus.BAD_REQUEST, "Event is at full capacity");
         }
 

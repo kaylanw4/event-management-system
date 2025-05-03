@@ -1,5 +1,6 @@
 package com.example.eventmanagementsystem.controller;
 
+import com.example.eventmanagementsystem.config.TestSecurityConfig;
 import com.example.eventmanagementsystem.config.TestWebConfig;
 import com.example.eventmanagementsystem.dto.UserDTO;
 import com.example.eventmanagementsystem.exception.ResourceNotFoundException;
@@ -34,7 +35,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 @WebMvcTest(UserController.class)
-@Import(TestWebConfig.class)
+@Import({TestWebConfig.class, TestSecurityConfig.class})
 @ActiveProfiles("test")
 @DisplayName("User Controller Tests")
 public class UserControllerTest {

@@ -1,17 +1,19 @@
+// src/test/java/com/example/eventmanagementsystem/config/TestWebConfig.java
 package com.example.eventmanagementsystem.config;
 
-import com.example.eventmanagementsystem.security.EventSecurity;
-import com.example.eventmanagementsystem.security.JwtAuthenticationEntryPoint;
-import com.example.eventmanagementsystem.security.JwtAuthenticationFilter;
-import com.example.eventmanagementsystem.security.UserSecurity;
+import com.example.eventmanagementsystem.security.*;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.boot.test.context.TestConfiguration;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Import;
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
 @TestConfiguration
+@Import(TestSecurityConfig.class)
 public class TestWebConfig {
 
     @MockBean
@@ -25,6 +27,15 @@ public class TestWebConfig {
 
     @MockBean
     private UserSecurity userSecurity;
+
+    @MockBean
+    private RegistrationSecurity registrationSecurity;
+
+    @MockBean
+    private AuthenticationManager authenticationManager;
+
+    @MockBean
+    private UserDetailsService userDetailsService;
 
     @Bean
     public PasswordEncoder passwordEncoder() {

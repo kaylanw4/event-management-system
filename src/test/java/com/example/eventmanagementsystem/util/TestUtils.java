@@ -8,6 +8,7 @@ import com.example.eventmanagementsystem.model.Registration;
 import com.example.eventmanagementsystem.model.User;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -22,6 +23,8 @@ public class TestUtils {
                 .email("test@example.com")
                 .fullName("Test User")
                 .roles(new HashSet<>(Set.of("USER")))
+                .organizedEvents(new ArrayList<>())
+                .registrations(new ArrayList<>())
                 .build();
     }
 
@@ -33,6 +36,8 @@ public class TestUtils {
                 .email("admin@example.com")
                 .fullName("Admin User")
                 .roles(new HashSet<>(Set.of("ADMIN")))
+                .organizedEvents(new ArrayList<>())
+                .registrations(new ArrayList<>())
                 .build();
     }
 
@@ -44,6 +49,8 @@ public class TestUtils {
                 .email("organizer@example.com")
                 .fullName("Event Organizer")
                 .roles(new HashSet<>(Set.of("ORGANIZER")))
+                .organizedEvents(new ArrayList<>())
+                .registrations(new ArrayList<>())
                 .build();
     }
 
@@ -71,6 +78,7 @@ public class TestUtils {
                 .capacity(100)
                 .published(true)
                 .organizer(createTestOrganizer())
+                .registrations(new ArrayList<>()) // Initialize empty list
                 .build();
     }
 

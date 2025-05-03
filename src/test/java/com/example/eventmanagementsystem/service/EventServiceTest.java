@@ -17,6 +17,7 @@ import org.mockito.junit.jupiter.MockitoExtension;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
@@ -46,7 +47,11 @@ public class EventServiceTest {
     @BeforeEach
     public void setUp() {
         organizer = TestUtils.createTestOrganizer();
+
+        // Create event with initialized registrations list
         testEvent = TestUtils.createTestEvent();
+        testEvent.setRegistrations(new ArrayList<>()); // Initialize empty list
+
         testEventDTO = TestUtils.createTestEventDTO();
     }
 
@@ -64,6 +69,7 @@ public class EventServiceTest {
                 .capacity(50)
                 .published(true)
                 .organizer(organizer)
+                .registrations(new ArrayList<>()) // Initialize empty list
                 .build();
 
         when(eventRepository.findAll()).thenReturn(Arrays.asList(testEvent, anotherEvent));
@@ -122,7 +128,22 @@ public class EventServiceTest {
     public void whenCreateEvent_withValidData_thenReturnCreatedEvent() {
         // Given
         when(userRepository.findById(anyLong())).thenReturn(Optional.of(organizer));
-        when(eventRepository.save(any(Event.class))).thenReturn(testEvent);
+
+        Event newEvent = Event.builder()
+                .id(1L)
+                .name(testEventDTO.getName())
+                .description(testEventDTO.getDescription())
+                .startTime(testEventDTO.getStartTime())
+                .endTime(testEventDTO.getEndTime())
+                .location(testEventDTO.getLocation())
+                .category(testEventDTO.getCategory())
+                .capacity(testEventDTO.getCapacity())
+                .published(false)
+                .organizer(organizer)
+                .registrations(new ArrayList<>()) // Initialize empty list
+                .build();
+
+        when(eventRepository.save(any(Event.class))).thenReturn(newEvent);
 
         // When
         EventDTO createdEvent = eventService.createEvent(testEventDTO);

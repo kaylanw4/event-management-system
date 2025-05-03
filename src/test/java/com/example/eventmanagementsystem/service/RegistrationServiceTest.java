@@ -300,6 +300,7 @@ class RegistrationServiceTest {
             verify(registrationRepository, never()).save(any(Registration.class));
         }
 
+        // Update the shouldThrowExceptionWhenEventIsAtCapacity test in RegistrationServiceTest
         @Test
         @DisplayName("Should throw exception when event is at capacity")
         void shouldThrowExceptionWhenEventIsAtCapacity() {
@@ -310,8 +311,17 @@ class RegistrationServiceTest {
                     .published(true)
                     .startTime(LocalDateTime.now().plusDays(5))
                     .endTime(LocalDateTime.now().plusDays(5).plusHours(2))
-                    .capacity(0) // No available spots
+                    .capacity(1) // Capacity is 1
+                    .registrations(new ArrayList<>()) // Initialize registrations list
                     .build();
+
+            // Add a registration to make it full
+            Registration existingRegistration = Registration.builder()
+                    .id(2L)
+                    .user(User.builder().id(999L).username("other").build())
+                    .event(fullEvent)
+                    .build();
+            fullEvent.getRegistrations().add(existingRegistration);
 
             given(userRepository.findById(1L)).willReturn(Optional.of(testUser));
             given(eventRepository.findById(3L)).willReturn(Optional.of(fullEvent));

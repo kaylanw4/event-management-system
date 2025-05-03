@@ -1,3 +1,4 @@
+// src/main/java/com/example/eventmanagementsystem/service/EventService.java
 package com.example.eventmanagementsystem.service;
 
 import com.example.eventmanagementsystem.dto.EventDTO;
@@ -155,6 +156,8 @@ public class EventService {
     }
 
     private EventDTO convertToDTO(Event event) {
+        int registrationCount = (event.getRegistrations() != null) ? event.getRegistrations().size() : 0;
+
         return EventDTO.builder()
                 .id(event.getId())
                 .name(event.getName())
@@ -167,8 +170,8 @@ public class EventService {
                 .published(event.isPublished())
                 .organizerId(event.getOrganizer().getId())
                 .organizerName(event.getOrganizer().getFullName())
-                .registrationCount(event.getRegistrations().size())
-                .availableSpots(event.getAvailableSpots())
+                .registrationCount(registrationCount)
+                .availableSpots(event.getCapacity() - registrationCount)
                 .build();
     }
 }

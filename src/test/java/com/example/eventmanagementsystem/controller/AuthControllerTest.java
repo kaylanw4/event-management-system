@@ -1,7 +1,7 @@
 package com.example.eventmanagementsystem.controller;
 
+import com.example.eventmanagementsystem.config.TestSecurityConfig;
 import com.example.eventmanagementsystem.config.TestWebConfig;
-import com.example.eventmanagementsystem.dto.JwtAuthResponse;
 import com.example.eventmanagementsystem.dto.LoginRequest;
 import com.example.eventmanagementsystem.dto.UserDTO;
 import com.example.eventmanagementsystem.model.User;
@@ -28,12 +28,13 @@ import java.util.Optional;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.Mockito.when;
+import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.csrf;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @WebMvcTest(AuthController.class)
-@Import(TestWebConfig.class)
+@Import({TestWebConfig.class, TestSecurityConfig.class})
 @ActiveProfiles("test")
 public class AuthControllerTest {
 
@@ -79,16 +80,9 @@ public class AuthControllerTest {
         when(tokenProvider.generateToken(any(Authentication.class))).thenReturn("test-jwt-token");
         when(userRepository.findByUsername(anyString())).thenReturn(Optional.of(user));
 
-        JwtAuthResponse expectedResponse = JwtAuthResponse.builder()
-                .accessToken("test-jwt-token")
-                .tokenType("Bearer")
-                .userId(user.getId())
-                .username(user.getUsername())
-                .email(user.getEmail())
-                .build();
-
         // When & Then
         mockMvc.perform(post("/api/auth/login")
+                        .with(csrf())
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(objectMapper.writeValueAsString(loginRequest)))
                 .andExpect(status().isOk())
@@ -106,6 +100,7 @@ public class AuthControllerTest {
 
         // When & Then
         mockMvc.perform(post("/api/auth/register")
+                        .with(csrf())
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(objectMapper.writeValueAsString(userDTO)))
                 .andExpect(status().isOk())

@@ -1,7 +1,6 @@
 package com.example.eventmanagementsystem.controller;
 
 import com.example.eventmanagementsystem.config.TestSecurityConfig;
-import com.example.eventmanagementsystem.config.TestWebConfig;
 import com.example.eventmanagementsystem.dto.LoginRequest;
 import com.example.eventmanagementsystem.dto.UserDTO;
 import com.example.eventmanagementsystem.model.User;
@@ -34,7 +33,8 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @WebMvcTest(AuthController.class)
-@Import({TestWebConfig.class, TestSecurityConfig.class})
+//@Import({TestWebConfig.class, TestSecurityConfig.class})
+@Import(TestSecurityConfig.class)
 @ActiveProfiles("test")
 public class AuthControllerTest {
 

@@ -3,7 +3,7 @@ package com.example.eventmanagementsystem.config;
 
 import org.springframework.boot.test.context.TestConfiguration;
 import org.springframework.context.annotation.Bean;
-import org.springframework.core.annotation.Order;
+import org.springframework.context.annotation.Primary;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.web.SecurityFilterChain;
@@ -13,13 +13,13 @@ import org.springframework.security.web.SecurityFilterChain;
 public class TestSecurityConfig {
 
     @Bean
-    @Order(1)
+    @Primary
     public SecurityFilterChain testSecurityFilterChain(HttpSecurity http) throws Exception {
         http
                 .csrf().disable()
-                .cors().disable()
                 .authorizeHttpRequests()
-                .anyRequest().permitAll(); // Permit all requests for testing
+                .requestMatchers("/api/auth/**").permitAll()
+                .anyRequest().permitAll();
         return http.build();
     }
 }

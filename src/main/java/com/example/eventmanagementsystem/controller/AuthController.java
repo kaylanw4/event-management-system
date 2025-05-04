@@ -46,6 +46,7 @@ public class AuthController {
 
         JwtAuthResponse response = JwtAuthResponse.builder()
                 .accessToken(jwt)
+                .tokenType("Bearer")  // Explicitly set tokenType
                 .userId(user.getId())
                 .username(user.getUsername())
                 .email(user.getEmail())

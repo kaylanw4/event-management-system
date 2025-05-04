@@ -282,6 +282,12 @@ public class EventApiIntegrationTest {
     @Order(13)
     @DisplayName("Admin should be able to delete event")
     void adminShouldBeAbleToDeleteEvent() throws Exception {
+        // First, verify no more registrations exist for this event
+        mockMvc.perform(get("/api/registrations/event/{eventId}", eventId)
+                        .header("Authorization", "Bearer " + adminToken))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$", hasSize(0))); // Verify no registrations
+
         // When
         mockMvc.perform(delete("/api/events/{id}", eventId)
                         .with(csrf())
